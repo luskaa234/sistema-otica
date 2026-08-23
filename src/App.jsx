@@ -4,6 +4,7 @@ import { RotaProtegida } from './shared/components/RotaProtegida'
 import Login from './pages/Login'
 
 import { AdminLayout } from './admin/layouts/AdminLayout'
+import { EstoqueLayout } from './admin/layouts/EstoqueLayout'
 import Dashboard from './admin/pages/Dashboard'
 import ListaClientes from './admin/pages/clientes/ListaClientes'
 import FormularioCliente from './admin/pages/clientes/FormularioCliente'
@@ -51,9 +52,11 @@ export default function App() {
           <Route path="vendas" element={<ListaOS />} />
           <Route path="vendas/novo" element={<NovoOrcamento />} />
           <Route path="vendas/:id" element={<DetalheOS />} />
-          <Route path="estoque" element={<Armacoes />} />
-          <Route path="estoque/lentes" element={<Lentes />} />
-          <Route path="estoque/fornecedores" element={<Fornecedores />} />
+          <Route path="estoque" element={<EstoqueLayout />}>
+            <Route index element={<Armacoes />} />
+            <Route path="lentes" element={<Lentes />} />
+            <Route path="fornecedores" element={<Fornecedores />} />
+          </Route>
           <Route path="financeiro" element={<ContasReceber />} />
           <Route path="financeiro/pagar" element={<ContasPagar />} />
           <Route path="financeiro/fluxo-caixa" element={<FluxoCaixa />} />
