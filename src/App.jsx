@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import { AdminLayout } from './admin/layouts/AdminLayout'
 import Dashboard from './admin/pages/Dashboard'
 import ListaClientes from './admin/pages/clientes/ListaClientes'
+import FormularioCliente from './admin/pages/clientes/FormularioCliente'
 import DetalheCliente from './admin/pages/clientes/DetalheCliente'
 import FormularioReceita from './admin/pages/clientes/FormularioReceita'
 import ListaOS from './admin/pages/vendas/ListaOS'
@@ -43,7 +44,9 @@ export default function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="clientes" element={<ListaClientes />} />
+          <Route path="clientes/novo" element={<FormularioCliente />} />
           <Route path="clientes/:id" element={<DetalheCliente />} />
+          <Route path="clientes/:id/editar" element={<FormularioCliente />} />
           <Route path="clientes/:id/receitas/nova" element={<FormularioReceita />} />
           <Route path="vendas" element={<ListaOS />} />
           <Route path="vendas/novo" element={<NovoOrcamento />} />
