@@ -22,6 +22,7 @@ import ContasPagar from './admin/pages/financeiro/ContasPagar'
 import FluxoCaixa from './admin/pages/financeiro/FluxoCaixa'
 import Comissoes from './admin/pages/financeiro/Comissoes'
 import Relatorios from './admin/pages/financeiro/Relatorios'
+import Campanhas from './admin/pages/marketing/Campanhas'
 import ListaFuncionarios from './admin/pages/funcionarios/ListaFuncionarios'
 import DadosLoja from './admin/pages/configuracoes/DadosLoja'
 
@@ -66,6 +67,7 @@ export default function App() {
             <Route path="comissoes" element={<Comissoes />} />
             <Route path="relatorios" element={<Relatorios />} />
           </Route>
+          <Route path="marketing" element={<Campanhas />} />
           <Route path="funcionarios" element={<ListaFuncionarios />} />
           <Route path="configuracoes" element={<DadosLoja />} />
         </Route>
