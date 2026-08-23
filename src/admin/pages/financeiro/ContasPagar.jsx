@@ -8,6 +8,7 @@ import { Modal } from '../../../shared/components/Modal'
 import { Badge } from '../../../shared/components/Badge'
 import { Carregando, Vazio } from '../../../shared/components/EstadoTela'
 import { useSupabaseQuery } from '../../../shared/hooks/useSupabaseQuery'
+import { useAuth } from '../../../shared/hooks/useAuth'
 import { supabase } from '../../../shared/lib/supabaseClient'
 import { formatarMoeda, formatarData } from '../../../shared/utils/formatters'
 
@@ -31,6 +32,7 @@ function hojeISO() {
 }
 
 export default function ContasPagar() {
+  const { perfil } = useAuth()
   const [filtro, setFiltro] = useState('todas')
   const [modalAberto, setModalAberto] = useState(false)
   const [contaEditando, setContaEditando] = useState(null)
@@ -73,6 +75,17 @@ export default function ContasPagar() {
       .from('contas_pagar')
       .update({ status: 'pago', data_pagamento: hojeISO() })
       .eq('id', conta.id)
+
+    if (perfil?.id) {
+      await supabase.from('logs_auditoria').insert({
+        funcionario_id: perfil.id,
+        acao: 'editar_financeiro',
+        tabela_afetada: 'contas_pagar',
+        registro_id: conta.id,
+        detalhes: { descricao: conta.descricao, valor: conta.valor, acao_especifica: 'marcar_como_pago' },
+      })
+    }
+
     refetch()
   }
 
