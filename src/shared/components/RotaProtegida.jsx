@@ -16,12 +16,13 @@ const BYPASS_AUTH = import.meta.env.VITE_DEV_BYPASS_AUTH === 'true'
  */
 export function RotaProtegida({ perfilPermitido, children }) {
   const { logado, perfil, carregando } = useAuth()
+  const caminhoLogin = perfilPermitido === 'cliente' ? '/app/login' : '/'
 
   if (BYPASS_AUTH) return children
 
   if (carregando) return <Carregando texto="Verificando sessão..." />
-  if (!logado) return <Navigate to="/" replace />
-  if (!perfil || perfil.tipo !== perfilPermitido) return <Navigate to="/" replace />
+  if (!logado) return <Navigate to={caminhoLogin} replace />
+  if (!perfil || perfil.tipo !== perfilPermitido) return <Navigate to={caminhoLogin} replace />
 
   return children
 }

@@ -27,8 +27,10 @@ import ListaFuncionarios from './admin/pages/funcionarios/ListaFuncionarios'
 import DadosLoja from './admin/pages/configuracoes/DadosLoja'
 
 import { ClienteLayout } from './cliente/layouts/ClienteLayout'
+import LoginCliente from './cliente/pages/Login'
 import ClienteHome from './cliente/pages/Home'
 import MinhasReceitas from './cliente/pages/MinhasReceitas'
+import DetalheReceitaCliente from './cliente/pages/DetalheReceita'
 import MinhasOS from './cliente/pages/MinhasOS'
 import Pagamentos from './cliente/pages/Pagamentos'
 
@@ -72,6 +74,8 @@ export default function App() {
           <Route path="configuracoes" element={<DadosLoja />} />
         </Route>
 
+        <Route path="/app/login" element={<LoginCliente />} />
+
         <Route
           path="/app"
           element={
@@ -82,6 +86,7 @@ export default function App() {
         >
           <Route index element={<ClienteHome />} />
           <Route path="receitas" element={<MinhasReceitas />} />
+          <Route path="receitas/:id" element={<DetalheReceitaCliente />} />
           <Route path="pedidos" element={<MinhasOS />} />
           <Route path="pagamentos" element={<Pagamentos />} />
         </Route>
