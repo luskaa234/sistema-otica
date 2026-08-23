@@ -5,6 +5,7 @@ import Login from './pages/Login'
 
 import { AdminLayout } from './admin/layouts/AdminLayout'
 import { EstoqueLayout } from './admin/layouts/EstoqueLayout'
+import { FinanceiroLayout } from './admin/layouts/FinanceiroLayout'
 import Dashboard from './admin/pages/Dashboard'
 import ListaClientes from './admin/pages/clientes/ListaClientes'
 import FormularioCliente from './admin/pages/clientes/FormularioCliente'
@@ -20,6 +21,7 @@ import ContasReceber from './admin/pages/financeiro/ContasReceber'
 import ContasPagar from './admin/pages/financeiro/ContasPagar'
 import FluxoCaixa from './admin/pages/financeiro/FluxoCaixa'
 import Comissoes from './admin/pages/financeiro/Comissoes'
+import Relatorios from './admin/pages/financeiro/Relatorios'
 import ListaFuncionarios from './admin/pages/funcionarios/ListaFuncionarios'
 import DadosLoja from './admin/pages/configuracoes/DadosLoja'
 
@@ -57,10 +59,13 @@ export default function App() {
             <Route path="lentes" element={<Lentes />} />
             <Route path="fornecedores" element={<Fornecedores />} />
           </Route>
-          <Route path="financeiro" element={<ContasReceber />} />
-          <Route path="financeiro/pagar" element={<ContasPagar />} />
-          <Route path="financeiro/fluxo-caixa" element={<FluxoCaixa />} />
-          <Route path="financeiro/comissoes" element={<Comissoes />} />
+          <Route path="financeiro" element={<FinanceiroLayout />}>
+            <Route index element={<ContasReceber />} />
+            <Route path="pagar" element={<ContasPagar />} />
+            <Route path="fluxo-caixa" element={<FluxoCaixa />} />
+            <Route path="comissoes" element={<Comissoes />} />
+            <Route path="relatorios" element={<Relatorios />} />
+          </Route>
           <Route path="funcionarios" element={<ListaFuncionarios />} />
           <Route path="configuracoes" element={<DadosLoja />} />
         </Route>

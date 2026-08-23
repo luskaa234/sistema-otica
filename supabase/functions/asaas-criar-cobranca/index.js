@@ -55,6 +55,7 @@ Deno.serve(async (req) => {
       asaas_payment_id: cobranca.id,
       valor,
       status: cobranca.status ?? 'PENDING',
+      invoice_url: cobranca.invoiceUrl ?? null,
     })
 
     if (insertError) {
