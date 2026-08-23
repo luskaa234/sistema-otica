@@ -22,16 +22,21 @@ export function useSupabaseQuery(queryFn, deps = []) {
     setCarregando(true)
     setErro(null)
 
-    const { data, error } = await queryFn(supabase)
+    try {
+      const { data, error } = await queryFn(supabase)
 
-    if (error) {
-      setErro(error)
+      if (error) {
+        setErro(error)
+        setDados(null)
+      } else {
+        setDados(data)
+      }
+    } catch (excecao) {
+      setErro(excecao)
       setDados(null)
-    } else {
-      setDados(data)
+    } finally {
+      setCarregando(false)
     }
-
-    setCarregando(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)
 

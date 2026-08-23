@@ -9,7 +9,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
   )
 }
 
+// ".invalid" é um TLD reservado (RFC 2606) que sempre falha a resolução de
+// DNS imediatamente — ao contrário de um subdomínio real de supabase.co,
+// que fica pendurado sem responder e trava a UI em "carregando" para sempre.
 export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
+  supabaseUrl || 'https://supabase-nao-configurado.invalid',
   supabaseAnonKey || 'placeholder-anon-key'
 )
