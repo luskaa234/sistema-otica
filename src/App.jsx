@@ -1,7 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { RotaProtegida } from './shared/components/RotaProtegida'
 
 import Login from './pages/Login'
+
+const BYPASS_AUTH = import.meta.env.VITE_DEV_BYPASS_AUTH === 'true'
 
 import { AdminLayout } from './admin/layouts/AdminLayout'
 import { EstoqueLayout } from './admin/layouts/EstoqueLayout'
@@ -38,7 +40,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={BYPASS_AUTH ? <Navigate to="/admin" replace /> : <Login />} />
 
         <Route
           path="/admin"

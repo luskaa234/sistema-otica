@@ -9,9 +9,9 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
-if ('serviceWorker' in navigator && window.location.pathname.startsWith('/app')) {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js').catch((erro) => {
+    navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).catch((erro) => {
       console.error('Falha ao registrar service worker:', erro)
     })
   })

@@ -1,9 +1,9 @@
 {
   "name": "Ótica Monte Sinai",
   "short_name": "Monte Sinai",
-  "description": "Área do cliente da Ótica Monte Sinai",
-  "start_url": "/app",
-  "scope": "/app",
+  "description": "Painel administrativo da Ótica Monte Sinai",
+  "start_url": "/admin",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f9fafb",
   "theme_color": "#2563eb",

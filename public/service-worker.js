@@ -1,5 +1,5 @@
-const CACHE_NAME = 'monte-sinai-app-v1'
-const URLS_ESSENCIAIS = ['/app', '/manifest.json']
+const CACHE_NAME = 'monte-sinai-app-v2'
+const URLS_ESSENCIAIS = ['/admin', '/app', '/manifest.json']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
