@@ -119,12 +119,12 @@ export default function DetalheCliente() {
         }
       />
 
-      <div className="mb-6 flex gap-1 border-b border-gray-200">
+      <div className="mb-6 flex gap-1 overflow-x-auto border-b border-gray-200">
         {ABAS.map((aba) => (
           <button
             key={aba.chave}
             onClick={() => setAbaAtiva(aba.chave)}
-            className={`px-4 py-2 text-sm font-medium ${
+            className={`flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium ${
               abaAtiva === aba.chave
                 ? 'border-b-2 border-blue-600 text-blue-700'
                 : 'text-gray-500 hover:text-gray-800'

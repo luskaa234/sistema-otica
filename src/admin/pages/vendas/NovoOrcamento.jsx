@@ -259,11 +259,11 @@ export default function NovoOrcamento() {
     <div className="max-w-3xl">
       <PageHeader titulo="Novo Orçamento" />
 
-      <div className="mb-6 flex items-center gap-2">
+      <div className="mb-6 flex items-center gap-1 overflow-x-auto sm:gap-2">
         {ETAPAS.map((nome, indice) => (
-          <div key={nome} className="flex items-center gap-2">
+          <div key={nome} className="flex flex-shrink-0 items-center gap-1.5 sm:gap-2">
             <div
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
+              className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
                 indice === etapa
                   ? 'bg-brand-600 text-white shadow-soft ring-4 ring-brand-100'
                   : indice < etapa
@@ -273,11 +273,13 @@ export default function NovoOrcamento() {
             >
               {indice + 1}
             </div>
-            <span className={`text-sm ${indice === etapa ? 'font-semibold text-gray-900' : 'text-gray-400'}`}>
+            <span
+              className={`hidden text-sm sm:inline ${indice === etapa ? 'font-semibold text-gray-900' : 'text-gray-400'}`}
+            >
               {nome}
             </span>
             {indice < ETAPAS.length - 1 && (
-              <div className={`mx-2 h-px w-8 ${indice < etapa ? 'bg-brand-200' : 'bg-gray-200'}`} />
+              <div className={`mx-1 h-px w-4 flex-shrink-0 sm:mx-2 sm:w-8 ${indice < etapa ? 'bg-brand-200' : 'bg-gray-200'}`} />
             )}
           </div>
         ))}

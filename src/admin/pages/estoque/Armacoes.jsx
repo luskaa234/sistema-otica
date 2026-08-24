@@ -262,14 +262,14 @@ export function FormularioProduto({ tipo, produto, onSalvo, onCancelar }) {
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Input label="Marca" value={marca} onChange={(e) => setMarca(e.target.value)} />
         <Input label="Modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} />
         <Input label="Cor" value={cor} onChange={(e) => setCor(e.target.value)} />
         <Input label="Material" value={material} onChange={(e) => setMaterial(e.target.value)} />
         <Input label="SKU / código de barras" value={sku} onChange={(e) => setSku(e.target.value)} />
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Input label="Custo (R$)" type="number" step="0.01" value={custo} onChange={(e) => setCusto(e.target.value)} />
         <Input label="Preço de venda (R$)" type="number" step="0.01" value={preco} onChange={(e) => setPreco(e.target.value)} />
         <Input

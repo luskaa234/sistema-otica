@@ -252,7 +252,7 @@ function DetalheVendedor({ funcionario }) {
 
   return (
     <div className="border-t border-gray-100 p-3 text-sm">
-      <div className="mb-3 grid grid-cols-3 gap-3">
+      <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div>
           <p className="text-gray-400">Vendido no mês</p>
           <p className="font-medium text-gray-900">{formatarMoeda(totalMes)}</p>

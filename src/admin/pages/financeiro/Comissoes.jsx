@@ -266,7 +266,7 @@ function FormularioRegraComissao({ vendedor, regraAtual, onSalvo, onCancelar }) 
       )}
 
       {tipo === 'percentual_categoria' && (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <Input label="Armação (%)" type="number" value={percentualArmacao} onChange={(e) => setPercentualArmacao(e.target.value)} />
           <Input label="Lente (%)" type="number" value={percentualLente} onChange={(e) => setPercentualLente(e.target.value)} />
           <Input label="Acessório (%)" type="number" value={percentualAcessorio} onChange={(e) => setPercentualAcessorio(e.target.value)} />
