@@ -1,9 +1,17 @@
 import { createClient } from '@supabase/supabase-js'
 import { criarClienteDemo } from './demo/client'
 
-const modoDemo = import.meta.env.VITE_DEMO_MODE === 'true'
+const flagDemo = import.meta.env.VITE_DEMO_MODE
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const temSupabaseReal = Boolean(supabaseUrl && supabaseAnonKey)
+
+// Cai para o modo demo automaticamente quando não há credenciais reais
+// configuradas (ex: clone novo do repositório ou deploy sem .env, já que
+// o .env é local e não vai pro git) — só fica no modo "Supabase real
+// quebrado" se alguém desativar o demo explicitamente (VITE_DEMO_MODE=false)
+// sem configurar as credenciais.
+const modoDemo = flagDemo === 'true' || (flagDemo !== 'false' && !temSupabaseReal)
 
 if (!modoDemo && (!supabaseUrl || !supabaseAnonKey)) {
   console.warn(
