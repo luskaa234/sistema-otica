@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Plus, Search } from 'lucide-react'
 import { PageHeader } from '../../../shared/components/PageHeader'
 import { Button } from '../../../shared/components/Button'
@@ -73,7 +73,20 @@ export default function ListaOS() {
   const colunas = useMemo(
     () => [
       { chave: 'numero', titulo: 'Nº', render: (linha) => `#${linha.numero}` },
-      { chave: 'cliente_nome', titulo: 'Cliente' },
+      {
+        chave: 'cliente_nome',
+        titulo: 'Cliente',
+        render: (linha) => (
+          <Link
+            to={`/admin/clientes/${linha.cliente_id}`}
+            onClick={(e) => e.stopPropagation()}
+            className="hover:text-blue-600 hover:underline"
+          >
+            {linha.cliente_nome}
+          </Link>
+        ),
+      },
+      { chave: 'vendedor_nome', titulo: 'Vendedor', render: (linha) => linha.vendedor_nome ?? '—' },
       { chave: 'created_at', titulo: 'Data', render: (linha) => formatarData(linha.created_at) },
       {
         chave: 'status',

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { PageHeader } from '../../../shared/components/PageHeader'
 import { Button } from '../../../shared/components/Button'
 import { Input } from '../../../shared/components/Input'
@@ -24,6 +25,7 @@ function dataPadrao(diasAtras) {
 
 export default function Comissoes() {
   const [vendedorConfigurando, setVendedorConfigurando] = useState(null)
+  const [grupoExpandido, setGrupoExpandido] = useState(null)
   const [dataInicio, setDataInicio] = useState(dataPadrao(30))
   const [dataFim, setDataFim] = useState(new Date().toISOString().slice(0, 10))
   const [fechando, setFechando] = useState(false)
@@ -139,23 +141,50 @@ export default function Comissoes() {
         <Vazio titulo="Nenhuma comissão no período selecionado" />
       )}
       <div className="space-y-2">
-        {relatorioPorVendedor.map((grupo) => (
-          <div key={grupo.funcionarioId} className="rounded-xl border border-gray-100 shadow-soft p-3 text-sm">
-            <div className="flex items-center justify-between">
-              <p className="font-medium text-gray-900">{grupo.nome}</p>
-              <div className="flex items-center gap-3">
-                <span className="text-gray-700">Total: {formatarMoeda(grupo.total)}</span>
-                {grupo.pendente > 0 ? (
-                  <Button variant="secondary" onClick={() => marcarGrupoComoPago(grupo.itens)}>
-                    Marcar tudo como pago
-                  </Button>
-                ) : (
-                  <Badge className="bg-green-100 text-green-700">Tudo pago</Badge>
-                )}
+        {relatorioPorVendedor.map((grupo) => {
+          const expandido = grupoExpandido === grupo.funcionarioId
+          return (
+            <div key={grupo.funcionarioId} className="rounded-xl border border-gray-100 shadow-soft p-3 text-sm">
+              <div className="flex items-center justify-between">
+                <button
+                  className="font-medium text-gray-900 hover:underline"
+                  onClick={() => setGrupoExpandido(expandido ? null : grupo.funcionarioId)}
+                >
+                  {grupo.nome}
+                </button>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-700">Total: {formatarMoeda(grupo.total)}</span>
+                  {grupo.pendente > 0 ? (
+                    <Button variant="secondary" onClick={() => marcarGrupoComoPago(grupo.itens)}>
+                      Marcar tudo como pago
+                    </Button>
+                  ) : (
+                    <Badge className="bg-green-100 text-green-700">Tudo pago</Badge>
+                  )}
+                </div>
               </div>
+
+              {expandido && (
+                <div className="mt-3 space-y-1 border-t border-gray-100 pt-3">
+                  {grupo.itens.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between text-gray-600">
+                      <Link
+                        to={`/admin/vendas/${item.os_id}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        OS #{item.ordens_servico?.numero}
+                      </Link>
+                      <span>{formatarMoeda(item.valor_calculado)}</span>
+                      <Badge className={item.status === 'pago' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}>
+                        {item.status === 'pago' ? 'Pago' : 'Pendente'}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       <Modal

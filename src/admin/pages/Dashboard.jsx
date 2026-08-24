@@ -307,15 +307,31 @@ export default function Dashboard() {
                 <p className="py-6 text-center text-sm text-gray-400">Nenhuma atividade registrada ainda.</p>
               )}
               <div className="space-y-2 text-sm">
-                {feedAtividade?.map((log) => (
-                  <div key={log.id} className="flex items-center justify-between">
+                {feedAtividade?.map((log) => {
+                  const linkPorTabela = {
+                    ordens_servico: `/admin/vendas/${log.registro_id}`,
+                    clientes: `/admin/clientes/${log.registro_id}`,
+                  }
+                  const link = linkPorTabela[log.tabela_afetada]
+                  const conteudo = (
                     <span className="text-gray-700">
                       <span className="font-medium text-gray-900">{log.funcionarios?.nome ?? 'Sistema'}</span>{' '}
                       {(ACAO_AUDITORIA_LABEL[log.acao] ?? log.acao).toLowerCase()}
                     </span>
-                    <span className="text-xs text-gray-400">{formatarData(log.created_at)}</span>
-                  </div>
-                ))}
+                  )
+                  return (
+                    <div key={log.id} className="flex items-center justify-between">
+                      {link ? (
+                        <Link to={link} className="hover:underline">
+                          {conteudo}
+                        </Link>
+                      ) : (
+                        conteudo
+                      )}
+                      <span className="text-xs text-gray-400">{formatarData(log.created_at)}</span>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>

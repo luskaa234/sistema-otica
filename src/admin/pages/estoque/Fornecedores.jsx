@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import { PageHeader } from '../../../shared/components/PageHeader'
 import { Button } from '../../../shared/components/Button'
@@ -178,7 +179,7 @@ function HistoricoFornecedor({ fornecedor }) {
     (supabase) =>
       supabase
         .from('pedidos_lente')
-        .select('*, produtos(marca, modelo)')
+        .select('*, produtos(marca, modelo), ordens_servico(numero)')
         .eq('fornecedor_id', fornecedor.id)
         .order('created_at', { ascending: false }),
     [fornecedor.id]
@@ -215,7 +216,17 @@ function HistoricoFornecedor({ fornecedor }) {
       <div className="space-y-1">
         {pedidos?.map((pedido) => (
           <div key={pedido.id} className="flex justify-between text-gray-600">
-            <span>{[pedido.produtos?.marca, pedido.produtos?.modelo].filter(Boolean).join(' ')}</span>
+            <span>
+              {[pedido.produtos?.marca, pedido.produtos?.modelo].filter(Boolean).join(' ')}
+              {pedido.ordens_servico?.numero && (
+                <>
+                  {' · '}
+                  <Link to={`/admin/vendas/${pedido.os_id}`} className="text-blue-600 hover:underline">
+                    OS #{pedido.ordens_servico.numero}
+                  </Link>
+                </>
+              )}
+            </span>
             <span className="text-gray-400">
               {formatarData(pedido.created_at)}
               {pedido.data_recebimento && ` → recebido em ${formatarData(pedido.data_recebimento)}`}

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Download } from 'lucide-react'
 import {
   ResponsiveContainer,
@@ -60,7 +61,7 @@ export default function Relatorios() {
     (supabase) =>
       supabase
         .from('ordens_servico')
-        .select('numero, created_at, valor_total, desconto, status, clientes(nome)')
+        .select('id, numero, cliente_id, created_at, valor_total, desconto, status, clientes(nome)')
         .not('status', 'in', '(orcamento,cancelado)')
         .gte('created_at', dataInicio)
         .lte('created_at', `${dataFim}T23:59:59`)
@@ -179,9 +180,15 @@ export default function Relatorios() {
             </div>
             <div className="space-y-1 text-sm">
               {vendasDetalhadas?.map((venda) => (
-                <div key={venda.numero} className="flex justify-between border-b border-gray-50 py-1">
+                <div key={venda.id} className="flex justify-between border-b border-gray-50 py-1">
                   <span>
-                    #{venda.numero} · {venda.clientes?.nome}
+                    <Link to={`/admin/vendas/${venda.id}`} className="text-blue-600 hover:underline">
+                      #{venda.numero}
+                    </Link>{' '}
+                    ·{' '}
+                    <Link to={`/admin/clientes/${venda.cliente_id}`} className="text-blue-600 hover:underline">
+                      {venda.clientes?.nome}
+                    </Link>
                   </span>
                   <span>{formatarData(venda.created_at)}</span>
                   <span className="font-medium text-gray-900">

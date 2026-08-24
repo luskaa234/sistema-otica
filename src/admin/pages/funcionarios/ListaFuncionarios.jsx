@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import { PageHeader } from '../../../shared/components/PageHeader'
 import { Button } from '../../../shared/components/Button'
@@ -228,7 +229,7 @@ function DetalheVendedor({ funcionario }) {
     (supabase) =>
       supabase
         .from('ordens_servico')
-        .select('valor_total, desconto, created_at, status, numero')
+        .select('id, valor_total, desconto, created_at, status, numero')
         .eq('vendedor_id', funcionario.id)
         .not('status', 'in', '(orcamento,cancelado)')
         .gte('created_at', inicioAno)
@@ -268,8 +269,10 @@ function DetalheVendedor({ funcionario }) {
       <p className="mb-1 font-medium text-gray-700">Últimas OS fechadas</p>
       <div className="space-y-1 text-gray-600">
         {(vendasAno ?? []).slice(0, 5).map((os) => (
-          <div key={os.numero} className="flex justify-between">
-            <span>#{os.numero}</span>
+          <div key={os.id} className="flex justify-between">
+            <Link to={`/admin/vendas/${os.id}`} className="text-blue-600 hover:underline">
+              #{os.numero}
+            </Link>
             <span>{formatarData(os.created_at)}</span>
             <span>{formatarMoeda(Number(os.valor_total) - Number(os.desconto ?? 0))}</span>
           </div>
@@ -326,15 +329,32 @@ function LogAuditoria({ funcionarios }) {
       {!carregando && (!logs || logs.length === 0) && <Vazio titulo="Nenhum registro de auditoria" />}
 
       <div className="space-y-1 text-sm">
-        {logs?.map((log) => (
-          <div key={log.id} className="flex justify-between border-b border-gray-50 py-1.5 text-gray-600">
-            <span>
-              <span className="font-medium text-gray-900">{log.funcionarios?.nome}</span> —{' '}
-              {ACAO_AUDITORIA_LABEL[log.acao] ?? log.acao}
-            </span>
-            <span className="text-gray-400">{formatarData(log.created_at)}</span>
-          </div>
-        ))}
+        {logs?.map((log) => {
+          const linkPorTabela = {
+            ordens_servico: `/admin/vendas/${log.registro_id}`,
+            clientes: `/admin/clientes/${log.registro_id}`,
+          }
+          const link = linkPorTabela[log.tabela_afetada]
+          return (
+            <div key={log.id} className="flex justify-between border-b border-gray-50 py-1.5 text-gray-600">
+              <span>
+                <span className="font-medium text-gray-900">{log.funcionarios?.nome}</span> —{' '}
+                {ACAO_AUDITORIA_LABEL[log.acao] ?? log.acao}
+                {link && (
+                  <>
+                    {' '}
+                    (
+                    <Link to={link} className="text-blue-600 hover:underline">
+                      ver
+                    </Link>
+                    )
+                  </>
+                )}
+              </span>
+              <span className="text-gray-400">{formatarData(log.created_at)}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
