@@ -41,7 +41,7 @@ export default function Login() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-sm rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
+        className="w-full max-w-sm rounded-xl border border-gray-100 shadow-soft bg-white p-6"
       >
         <h1 className="mb-1 text-lg font-semibold text-gray-900">Ótica Monte Sinai</h1>
         <p className="mb-6 text-sm text-gray-500">Entre com seu e-mail e senha</p>

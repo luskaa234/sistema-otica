@@ -14,7 +14,7 @@ export default function Home() {
         <Link
           key={to}
           to={to}
-          className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+          className="flex items-center gap-3 rounded-xl border border-gray-100 shadow-soft bg-white p-4"
         >
           <Icon size={22} className="text-blue-600" />
           <span className="font-medium text-gray-800">{label}</span>

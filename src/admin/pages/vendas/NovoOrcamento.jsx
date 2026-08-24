@@ -263,20 +263,22 @@ export default function NovoOrcamento() {
         {ETAPAS.map((nome, indice) => (
           <div key={nome} className="flex items-center gap-2">
             <div
-              className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium ${
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
                 indice === etapa
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-brand-600 text-white shadow-soft ring-4 ring-brand-100'
                   : indice < etapa
-                    ? 'bg-blue-100 text-blue-700'
+                    ? 'bg-brand-100 text-brand-700'
                     : 'bg-gray-100 text-gray-400'
               }`}
             >
               {indice + 1}
             </div>
-            <span className={`text-sm ${indice === etapa ? 'font-medium text-gray-900' : 'text-gray-400'}`}>
+            <span className={`text-sm ${indice === etapa ? 'font-semibold text-gray-900' : 'text-gray-400'}`}>
               {nome}
             </span>
-            {indice < ETAPAS.length - 1 && <div className="mx-2 h-px w-8 bg-gray-200" />}
+            {indice < ETAPAS.length - 1 && (
+              <div className={`mx-2 h-px w-8 ${indice < etapa ? 'bg-brand-200' : 'bg-gray-200'}`} />
+            )}
           </div>
         ))}
       </div>
@@ -284,7 +286,7 @@ export default function NovoOrcamento() {
       {etapa === 0 && (
         <div>
           {clienteSelecionado ? (
-            <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+            <div className="flex items-center justify-between rounded-xl border border-gray-100 shadow-soft p-4">
               <div>
                 <p className="font-medium text-gray-900">{clienteSelecionado.nome}</p>
                 <p className="text-sm text-gray-500">{formatarTelefone(clienteSelecionado.telefone)}</p>
@@ -306,7 +308,7 @@ export default function NovoOrcamento() {
               </div>
 
               {resultadosClientes.length > 0 && (
-                <div className="mb-3 divide-y divide-gray-100 rounded-lg border border-gray-200">
+                <div className="mb-3 divide-y divide-gray-100 rounded-xl border border-gray-100 shadow-soft">
                   {resultadosClientes.map((cliente) => (
                     <button
                       key={cliente.id}
@@ -415,7 +417,7 @@ export default function NovoOrcamento() {
             {resultadosProdutos.map((produto) => (
               <div
                 key={produto.id}
-                className="flex items-center justify-between rounded-lg border border-gray-200 p-3 text-sm"
+                className="flex items-center justify-between rounded-xl border border-gray-100 shadow-soft p-3 text-sm"
               >
                 <div>
                   <p className="font-medium text-gray-900">
@@ -439,7 +441,7 @@ export default function NovoOrcamento() {
             {itens.map((item) => (
               <div
                 key={item.chave}
-                className="flex items-center justify-between rounded-lg border border-gray-200 p-3 text-sm"
+                className="flex items-center justify-between rounded-xl border border-gray-100 shadow-soft p-3 text-sm"
               >
                 <span>{item.descricao}</span>
                 <div className="flex items-center gap-3">
@@ -696,7 +698,7 @@ function NovaReceitaInline({ clienteId, onCriada, onCancelar }) {
   }
 
   return (
-    <div className="space-y-4 rounded-lg border border-gray-200 p-4">
+    <div className="space-y-4 rounded-xl border border-gray-100 shadow-soft p-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium text-gray-700">Nova receita</h3>
         <button onClick={onCancelar} className="text-gray-400 hover:text-gray-600">

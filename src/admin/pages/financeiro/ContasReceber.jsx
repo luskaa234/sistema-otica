@@ -99,7 +99,7 @@ export default function ContasReceber() {
           <button
             key={pagamento.id}
             onClick={() => setPagamentoSelecionado(pagamento)}
-            className="flex w-full items-center justify-between rounded-lg border border-gray-200 p-3 text-left text-sm hover:bg-gray-50"
+            className="flex w-full items-center justify-between rounded-xl border border-gray-100 shadow-soft p-3 text-left text-sm hover:bg-gray-50"
           >
             <div>
               <p className="font-medium text-gray-900">

@@ -173,7 +173,7 @@ export default function DetalheOS() {
         }
       />
 
-      <div className="mb-6 rounded-lg border border-gray-200 p-4">
+      <div className="mb-6 rounded-xl border border-gray-100 shadow-soft p-4">
         <h3 className="mb-3 text-sm font-medium text-gray-500">Linha do tempo</h3>
         <div className="flex flex-wrap gap-4">
           {ORDEM_STATUS_OS.map((status) => {
@@ -198,7 +198,7 @@ export default function DetalheOS() {
         {proximo && (
           <div className="mt-4">
             <Button loading={processando} onClick={avancarStatus}>
-              Avançar para "{STATUS_OS_LABEL[proximo]}"
+              Avançar para"{STATUS_OS_LABEL[proximo]}"
             </Button>
           </div>
         )}
@@ -211,7 +211,7 @@ export default function DetalheOS() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div className="rounded-lg border border-gray-200 p-4">
+        <div className="rounded-xl border border-gray-100 shadow-soft p-4">
           <h3 className="mb-3 text-sm font-medium text-gray-500">Itens</h3>
           <div className="space-y-2 text-sm">
             {itens?.map((item) => (
@@ -243,7 +243,7 @@ export default function DetalheOS() {
           )}
         </div>
 
-        <div className="rounded-lg border border-gray-200 p-4">
+        <div className="rounded-xl border border-gray-100 shadow-soft p-4">
           <h3 className="mb-3 text-sm font-medium text-gray-500">Financeiro</h3>
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
@@ -298,7 +298,7 @@ export default function DetalheOS() {
         </div>
       </div>
 
-      <div className="mt-6 rounded-lg border border-gray-200 p-4">
+      <div className="mt-6 rounded-xl border border-gray-100 shadow-soft p-4">
         <h3 className="mb-3 text-sm font-medium text-gray-500">Histórico de alterações</h3>
         <div className="space-y-2 text-sm">
           {historico?.map((evento) => (

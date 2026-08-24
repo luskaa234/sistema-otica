@@ -27,7 +27,7 @@ export default function MinhasOS() {
 
       <div className="space-y-3">
         {ordens?.map((os) => (
-          <div key={os.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+          <div key={os.id} className="rounded-xl border border-gray-100 shadow-soft bg-white p-4">
             <div className="mb-3 flex items-center justify-between">
               <p className="font-medium text-gray-900">Pedido #{os.numero}</p>
               <p className="text-sm text-gray-500">{formatarData(os.created_at)}</p>

@@ -39,7 +39,7 @@ export default function MinhasReceitas() {
           <button
             key={receita.id}
             onClick={() => navigate(`/app/receitas/${receita.id}`)}
-            className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm"
+            className="flex w-full items-center justify-between rounded-xl border border-gray-100 shadow-soft bg-white p-4 text-left"
           >
             <div>
               <p className="font-medium text-gray-900">

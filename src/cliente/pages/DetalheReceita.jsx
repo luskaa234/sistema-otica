@@ -29,7 +29,7 @@ export default function DetalheReceitaCliente() {
         Voltar
       </button>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div className="rounded-xl border border-gray-100 shadow-soft bg-white p-4">
         <p className="mb-1 text-lg font-semibold text-gray-900">
           {formatarData(receita.data_consulta) || formatarData(receita.created_at)}
         </p>

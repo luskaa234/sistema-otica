@@ -8,6 +8,7 @@ import {
   Megaphone,
   UserCog,
   Settings,
+  Glasses,
 } from 'lucide-react'
 
 const itens = [
@@ -23,26 +24,40 @@ const itens = [
 
 export function Sidebar() {
   return (
-    <aside className="flex h-full w-60 flex-col border-r border-gray-200 bg-white">
-      <div className="border-b border-gray-200 px-4 py-4">
-        <span className="text-lg font-semibold text-gray-900">Ótica Monte Sinai</span>
+    <aside className="flex h-full w-64 flex-col border-r border-gray-100 bg-white">
+      <div className="flex items-center gap-2.5 border-b border-gray-100 px-5 py-5">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white shadow-soft">
+          <Glasses size={18} />
+        </div>
+        <div className="leading-tight">
+          <p className="text-sm font-bold text-gray-900">Ótica Monte Sinai</p>
+          <p className="text-xs text-gray-400">Painel administrativo</p>
+        </div>
       </div>
-      <nav className="flex flex-1 flex-col gap-1 p-2">
+      <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-3">
         {itens.map(({ to, fim, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             end={fim}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-brand-50 text-brand-700'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`
             }
           >
-            <Icon size={18} />
-            {label}
+            {({ isActive }) => (
+              <>
+                <Icon
+                  size={18}
+                  strokeWidth={isActive ? 2.25 : 2}
+                  className={isActive ? 'text-brand-600' : 'text-gray-400 group-hover:text-gray-600'}
+                />
+                {label}
+              </>
+            )}
           </NavLink>
         ))}
       </nav>

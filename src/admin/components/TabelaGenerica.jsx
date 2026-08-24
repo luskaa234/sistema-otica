@@ -20,14 +20,14 @@ export function TabelaGenerica({
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
-      <table className="min-w-full divide-y divide-gray-200 text-sm">
-        <thead className="bg-gray-50">
+    <div className="overflow-x-auto rounded-xl border border-gray-100 shadow-soft">
+      <table className="min-w-full divide-y divide-gray-100 text-sm">
+        <thead className="bg-gray-50/80">
           <tr>
             {colunas.map((coluna) => (
               <th
                 key={coluna.chave}
-                className="px-4 py-3 text-left font-medium text-gray-600"
+                className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
               >
                 {coluna.titulo}
               </th>
@@ -39,10 +39,10 @@ export function TabelaGenerica({
             <tr
               key={linha.id ?? index}
               onClick={() => onRowClick?.(linha)}
-              className={onRowClick ? 'cursor-pointer hover:bg-gray-50' : ''}
+              className={onRowClick ? 'cursor-pointer transition-colors hover:bg-brand-50/40' : ''}
             >
               {colunas.map((coluna) => (
-                <td key={coluna.chave} className="px-4 py-3 text-gray-800">
+                <td key={coluna.chave} className="px-4 py-3.5 text-gray-800">
                   {coluna.render ? coluna.render(linha) : linha[coluna.chave]}
                 </td>
               ))}

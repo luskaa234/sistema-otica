@@ -78,7 +78,7 @@ export default function ListaFuncionarios() {
         {funcionarios?.map((funcionario) => {
           const expandido = expandidoId === funcionario.id
           return (
-            <div key={funcionario.id} className="rounded-lg border border-gray-200">
+            <div key={funcionario.id} className="rounded-xl border border-gray-100 shadow-soft">
               <div className="flex items-center justify-between p-3 text-sm">
                 <button
                   className="flex-1 text-left"

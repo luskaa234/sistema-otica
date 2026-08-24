@@ -137,7 +137,7 @@ export default function DetalheCliente() {
 
       {abaAtiva === 'visao_geral' && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div className="rounded-lg border border-gray-200 p-4">
+          <div className="rounded-xl border border-gray-100 shadow-soft p-4">
             <h3 className="mb-3 text-sm font-medium text-gray-500">Dados cadastrais</h3>
             <dl className="space-y-2 text-sm">
               <Campo rotulo="Telefone" valor={formatarTelefone(cliente.telefone)} />
@@ -156,7 +156,7 @@ export default function DetalheCliente() {
             </dl>
           </div>
 
-          <div className="rounded-lg border border-gray-200 p-4">
+          <div className="rounded-xl border border-gray-100 shadow-soft p-4">
             <h3 className="mb-3 text-sm font-medium text-gray-500">Resumo de compras</h3>
             {carregandoOS ? (
               <Carregando />
@@ -199,7 +199,7 @@ export default function DetalheCliente() {
               const expandida = receitaExpandidaId === receita.id
 
               return (
-                <div key={receita.id} className="rounded-lg border border-gray-200">
+                <div key={receita.id} className="rounded-xl border border-gray-100 shadow-soft">
                   <button
                     onClick={() => setReceitaExpandidaId(expandida ? null : receita.id)}
                     className="flex w-full items-center justify-between px-4 py-3 text-left"
@@ -281,7 +281,7 @@ export default function DetalheCliente() {
               <button
                 key={os.id}
                 onClick={() => navigate(`/admin/vendas/${os.id}`)}
-                className="flex w-full items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-left hover:bg-gray-50"
+                className="flex w-full items-center justify-between rounded-xl border border-gray-100 shadow-soft px-4 py-3 text-left hover:bg-gray-50"
               >
                 <div>
                   <p className="font-medium text-gray-900">{formatarData(os.created_at)}</p>

@@ -81,7 +81,7 @@ export default function Lentes() {
         {emAndamento.map((pedido) => (
           <div
             key={pedido.id}
-            className="flex items-center justify-between rounded-lg border border-gray-200 p-3 text-sm"
+            className="flex items-center justify-between rounded-xl border border-gray-100 shadow-soft p-3 text-sm"
           >
             <div>
               <p className="font-medium text-gray-900">

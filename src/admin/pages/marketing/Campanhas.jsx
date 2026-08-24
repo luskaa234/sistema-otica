@@ -85,7 +85,7 @@ export default function Campanhas() {
         {campanhas?.map((campanha) => (
           <div
             key={campanha.id}
-            className="flex items-center justify-between rounded-lg border border-gray-200 p-3 text-sm"
+            className="flex items-center justify-between rounded-xl border border-gray-100 shadow-soft p-3 text-sm"
           >
             <div>
               <p className="font-medium text-gray-900">{campanha.nome}</p>
@@ -266,7 +266,7 @@ function FormularioCampanha({ onSalvo, onCancelar }) {
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
           />
           {resultadosClientes.length > 0 && (
-            <div className="mt-1 divide-y divide-gray-100 rounded-lg border border-gray-200">
+            <div className="mt-1 divide-y divide-gray-100 rounded-xl border border-gray-100 shadow-soft">
               {resultadosClientes.map((cliente) => (
                 <button
                   key={cliente.id}

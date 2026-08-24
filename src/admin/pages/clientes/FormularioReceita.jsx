@@ -99,7 +99,7 @@ export default function FormularioReceita() {
           <Input label="Médico/oftalmologista" {...register('medico')} />
         </div>
 
-        <fieldset className="rounded-lg border border-gray-200 p-4">
+        <fieldset className="rounded-xl border border-gray-100 shadow-soft p-4">
           <legend className="px-1 text-sm font-medium text-gray-700">Olho direito (OD)</legend>
           <div className="grid grid-cols-3 gap-3">
             <Input label="Esférico" type="number" step="0.25" {...register('esferico_od')} />
@@ -108,7 +108,7 @@ export default function FormularioReceita() {
           </div>
         </fieldset>
 
-        <fieldset className="rounded-lg border border-gray-200 p-4">
+        <fieldset className="rounded-xl border border-gray-100 shadow-soft p-4">
           <legend className="px-1 text-sm font-medium text-gray-700">Olho esquerdo (OE)</legend>
           <div className="grid grid-cols-3 gap-3">
             <Input label="Esférico" type="number" step="0.25" {...register('esferico_oe')} />

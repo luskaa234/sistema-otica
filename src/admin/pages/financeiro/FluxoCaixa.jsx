@@ -145,11 +145,11 @@ export default function FluxoCaixa() {
       </div>
 
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-gray-100 shadow-soft bg-white p-5">
           <p className="text-sm text-gray-500">Saldo atual em caixa</p>
           <p className="mt-2 text-2xl font-semibold text-gray-900">{formatarMoeda(saldoAtual)}</p>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-gray-100 shadow-soft bg-white p-5">
           <p className="text-sm text-gray-500">Saldo projetado (com contas já cadastradas)</p>
           <p className="mt-2 text-2xl font-semibold text-gray-900">{formatarMoeda(saldoProjetado)}</p>
         </div>
@@ -159,7 +159,7 @@ export default function FluxoCaixa() {
 
       {!carregando && (
         <>
-          <div className="mb-6 h-72 rounded-xl border border-gray-200 bg-white p-4">
+          <div className="mb-6 h-72 rounded-xl border border-gray-100 shadow-soft bg-white p-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dadosGrafico}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />

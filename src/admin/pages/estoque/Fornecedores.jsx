@@ -59,7 +59,7 @@ export default function Fornecedores() {
         {fornecedores?.map((fornecedor) => {
           const expandido = fornecedorExpandidoId === fornecedor.id
           return (
-            <div key={fornecedor.id} className="rounded-lg border border-gray-200">
+            <div key={fornecedor.id} className="rounded-xl border border-gray-100 shadow-soft">
               <div className="flex items-center justify-between p-3">
                 <button
                   className="flex-1 text-left"

@@ -102,7 +102,7 @@ export default function Comissoes() {
             return (
               <div
                 key={vendedor.id}
-                className="flex items-center justify-between rounded-lg border border-gray-200 p-3 text-sm"
+                className="flex items-center justify-between rounded-xl border border-gray-100 shadow-soft p-3 text-sm"
               >
                 <div>
                   <p className="font-medium text-gray-900">{vendedor.nome}</p>
@@ -140,7 +140,7 @@ export default function Comissoes() {
       )}
       <div className="space-y-2">
         {relatorioPorVendedor.map((grupo) => (
-          <div key={grupo.funcionarioId} className="rounded-lg border border-gray-200 p-3 text-sm">
+          <div key={grupo.funcionarioId} className="rounded-xl border border-gray-100 shadow-soft p-3 text-sm">
             <div className="flex items-center justify-between">
               <p className="font-medium text-gray-900">{grupo.nome}</p>
               <div className="flex items-center gap-3">

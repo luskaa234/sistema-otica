@@ -238,7 +238,7 @@ function AbaMensagens({ config, onSalvo }) {
       {TIPOS_MENSAGEM.map((tipo) => {
         const item = mensagens[tipo.chave] ?? { ativo: false, canal: 'whatsapp', template: '' }
         return (
-          <div key={tipo.chave} className="rounded-lg border border-gray-200 p-4">
+          <div key={tipo.chave} className="rounded-xl border border-gray-100 shadow-soft p-4">
             <div className="mb-2 flex items-center justify-between">
               <p className="text-sm font-medium text-gray-800">{tipo.label}</p>
               <label className="flex items-center gap-2 text-xs text-gray-500">
@@ -364,7 +364,7 @@ function AbaComissaoPadrao({ config, onSalvo }) {
 
 function AbaPermissoes() {
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
+    <div className="overflow-x-auto rounded-xl border border-gray-100 shadow-soft">
       <table className="min-w-full divide-y divide-gray-200 text-sm">
         <thead className="bg-gray-50">
           <tr>

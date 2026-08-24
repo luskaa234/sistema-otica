@@ -119,7 +119,7 @@ export default function Armacoes() {
           const estoqueBaixo = (produto.estoque_atual ?? 0) <= (produto.estoque_minimo ?? 3)
           const expandido = produtoExpandidoId === produto.id
           return (
-            <div key={produto.id} className="rounded-lg border border-gray-200">
+            <div key={produto.id} className="rounded-xl border border-gray-100 shadow-soft">
               <div className="flex items-center justify-between p-3">
                 <button
                   className="flex flex-1 items-center gap-3 text-left"
@@ -301,7 +301,7 @@ export function FormularioProduto({ tipo, produto, onSalvo, onCancelar }) {
 
       {produto && (
         <p className="text-xs text-gray-400">
-          A quantidade em estoque só muda pelo botão "Ajustar" (registra o motivo no histórico).
+          A quantidade em estoque só muda pelo botão"Ajustar" (registra o motivo no histórico).
         </p>
       )}
 

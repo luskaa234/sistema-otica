@@ -104,7 +104,7 @@ export default function Relatorios() {
           </div>
 
           <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="rounded-xl border border-gray-200 bg-white p-4">
+            <div className="rounded-xl border border-gray-100 shadow-soft bg-white p-4">
               <h3 className="mb-3 text-sm font-medium text-gray-700">Vendas por dia</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -119,7 +119,7 @@ export default function Relatorios() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-white p-4">
+            <div className="rounded-xl border border-gray-100 shadow-soft bg-white p-4">
               <h3 className="mb-3 text-sm font-medium text-gray-700">Produtos mais vendidos</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -141,7 +141,7 @@ export default function Relatorios() {
             </div>
           </div>
 
-          <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4">
+          <div className="mb-6 rounded-xl border border-gray-100 shadow-soft bg-white p-4">
             <h3 className="mb-3 text-sm font-medium text-gray-700">Comparativo por vendedor</h3>
             <div className="space-y-2 text-sm">
               {vendedores?.map((v) => (
@@ -155,7 +155,7 @@ export default function Relatorios() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <div className="rounded-xl border border-gray-100 shadow-soft bg-white p-4">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-sm font-medium text-gray-700">Vendas do período</h3>
               <Button
@@ -202,7 +202,7 @@ export default function Relatorios() {
 
 function CardIndicador({ titulo, valor }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
+    <div className="rounded-xl border border-gray-100 shadow-soft bg-white p-5">
       <p className="text-sm text-gray-500">{titulo}</p>
       <p className="mt-2 text-2xl font-semibold text-gray-900">{valor}</p>
     </div>

@@ -104,7 +104,7 @@ export default function Pagamentos() {
       {!carregando && emAberto.length === 0 && <Vazio titulo="Nenhuma parcela em aberto" />}
       <div className="mb-6 space-y-2">
         {emAberto.map(({ os, pagamento }) => (
-          <div key={os.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+          <div key={os.id} className="rounded-xl border border-gray-100 shadow-soft bg-white p-4">
             <div className="mb-2 flex items-center justify-between">
               <p className="font-medium text-gray-900">Pedido #{os.numero}</p>
               <span className="text-sm text-gray-500">
@@ -135,7 +135,7 @@ export default function Pagamentos() {
         {historico.map((pagamento) => (
           <div
             key={pagamento.id}
-            className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+            className="flex items-center justify-between rounded-xl border border-gray-100 shadow-soft bg-white p-4"
           >
             <div>
               <p className="font-medium text-gray-900">Pedido #{pagamento.ordens_servico?.numero}</p>
