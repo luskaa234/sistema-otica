@@ -6,6 +6,7 @@ import { Input } from '../../../shared/components/Input'
 import { Button } from '../../../shared/components/Button'
 import { Carregando } from '../../../shared/components/EstadoTela'
 import { supabase } from '../../../shared/lib/supabaseClient'
+import { useAuth } from '../../../shared/hooks/useAuth'
 import { buscarEnderecoPorCep } from '../../../shared/lib/viacep'
 import { enviarArquivo } from '../../../shared/lib/storage'
 import { validarCPF } from '../../../shared/utils/validators'
@@ -15,6 +16,7 @@ export default function FormularioCliente() {
   const { id } = useParams()
   const modoEdicao = Boolean(id)
   const navigate = useNavigate()
+  const { perfil } = useAuth()
   const [carregandoCliente, setCarregandoCliente] = useState(modoEdicao)
   const [buscandoCep, setBuscandoCep] = useState(false)
   const [arquivoFoto, setArquivoFoto] = useState(null)
@@ -115,6 +117,17 @@ export default function FormularioCliente() {
       } else {
         const { data, error } = await supabase.from('clientes').insert(payload).select('id').single()
         if (error) throw error
+
+        if (perfil?.id) {
+          await supabase.from('logs_auditoria').insert({
+            funcionario_id: perfil.id,
+            acao: 'criar_cliente',
+            tabela_afetada: 'clientes',
+            registro_id: data.id,
+            detalhes: { nome: valores.nome },
+          })
+        }
+
         navigate(`/admin/clientes/${data.id}`)
       }
     } catch (err) {

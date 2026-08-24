@@ -38,6 +38,7 @@ Deno.serve(async (req) => {
     const valor = Number(os.valor_total) - Number(os.desconto ?? 0)
 
     const clienteAsaas = await buscarOuCriarClienteAsaas(os.clientes)
+    const dataVencimento = proximaDataVencimento()
 
     const cobranca = await asaasFetch('/payments', {
       method: 'POST',
@@ -45,7 +46,7 @@ Deno.serve(async (req) => {
         customer: clienteAsaas.id,
         billingType: 'UNDEFINED',
         value: valor,
-        dueDate: proximaDataVencimento(),
+        dueDate: dataVencimento,
         externalReference: os.id,
       },
     })
@@ -56,6 +57,7 @@ Deno.serve(async (req) => {
       valor,
       status: cobranca.status ?? 'PENDING',
       invoice_url: cobranca.invoiceUrl ?? null,
+      data_vencimento: dataVencimento,
     })
 
     if (insertError) {

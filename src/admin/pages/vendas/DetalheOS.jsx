@@ -18,6 +18,7 @@ import {
   proximoStatus,
 } from '../../../shared/constants/statusOS'
 import { gerarPdfOS } from '../../../shared/lib/pdf'
+import { useLoja } from '../../../shared/hooks/useLoja'
 
 function estaAtrasada(os) {
   if (!os?.prazo_entrega) return false
@@ -29,12 +30,14 @@ export default function DetalheOS() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { perfil } = useAuth()
+  const { loja } = useLoja()
   const [prazoEditavel, setPrazoEditavel] = useState(false)
   const [novoPrazo, setNovoPrazo] = useState('')
   const [modalCancelarAberto, setModalCancelarAberto] = useState(false)
   const [motivoCancelamento, setMotivoCancelamento] = useState('')
   const [processando, setProcessando] = useState(false)
   const [erroAcao, setErroAcao] = useState(null)
+  const [gerandoPdf, setGerandoPdf] = useState(false)
 
   const {
     dados: os,
@@ -128,19 +131,24 @@ export default function DetalheOS() {
     refetchOS()
   }
 
-  function baixarPdf() {
-    gerarPdfOS({
-      os,
-      cliente: os.clientes,
-      itens: (itens ?? []).map((item) => ({
-        descricao: [item.produtos?.marca, item.produtos?.modelo, item.produtos?.cor]
-          .filter(Boolean)
-          .join(' '),
-        quantidade: item.quantidade,
-        valor_unitario: Number(item.valor_unitario),
-      })),
-      loja: null,
-    })
+  async function baixarPdf() {
+    setGerandoPdf(true)
+    try {
+      await gerarPdfOS({
+        os,
+        cliente: os.clientes,
+        itens: (itens ?? []).map((item) => ({
+          descricao: [item.produtos?.marca, item.produtos?.modelo, item.produtos?.cor]
+            .filter(Boolean)
+            .join(' '),
+          quantidade: item.quantidade,
+          valor_unitario: Number(item.valor_unitario),
+        })),
+        loja,
+      })
+    } finally {
+      setGerandoPdf(false)
+    }
   }
 
   return (
@@ -159,7 +167,7 @@ export default function DetalheOS() {
         }
         acao={
           <div className="flex gap-2">
-            <Button variant="secondary" onClick={baixarPdf}>
+            <Button variant="secondary" loading={gerandoPdf} onClick={baixarPdf}>
               <FileDown size={16} />
               Gerar PDF
             </Button>

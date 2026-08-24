@@ -12,6 +12,7 @@ import { useAuth } from '../../../shared/hooks/useAuth'
 import { supabase } from '../../../shared/lib/supabaseClient'
 import { convidarFuncionario, alternarAcessoFuncionario } from '../../../shared/lib/funcionarios'
 import { formatarMoeda, formatarData, formatarTelefone } from '../../../shared/utils/formatters'
+import { ACAO_AUDITORIA_LABEL } from '../../../shared/constants/auditoria'
 
 const OPCOES_PERFIL = [
   { value: 'admin', label: 'Admin', descricao: 'Acesso total ao sistema.' },
@@ -278,12 +279,6 @@ function DetalheVendedor({ funcionario }) {
   )
 }
 
-const ACAO_LABEL = {
-  aplicar_desconto: 'Aplicou desconto',
-  alterar_status_os: 'Alterou status de OS',
-  editar_financeiro: 'Editou dado financeiro',
-}
-
 function LogAuditoria({ funcionarios }) {
   const [funcionarioFiltro, setFuncionarioFiltro] = useState('')
   const [dataInicio, setDataInicio] = useState('')
@@ -335,7 +330,7 @@ function LogAuditoria({ funcionarios }) {
           <div key={log.id} className="flex justify-between border-b border-gray-50 py-1.5 text-gray-600">
             <span>
               <span className="font-medium text-gray-900">{log.funcionarios?.nome}</span> —{' '}
-              {ACAO_LABEL[log.acao] ?? log.acao}
+              {ACAO_AUDITORIA_LABEL[log.acao] ?? log.acao}
             </span>
             <span className="text-gray-400">{formatarData(log.created_at)}</span>
           </div>

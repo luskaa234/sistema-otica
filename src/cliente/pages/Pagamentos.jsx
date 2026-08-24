@@ -6,7 +6,8 @@ import { Carregando, Vazio } from '../../shared/components/EstadoTela'
 import { useSupabaseQuery } from '../../shared/hooks/useSupabaseQuery'
 import { useAuth } from '../../shared/hooks/useAuth'
 import { criarCobranca } from '../../shared/lib/asaas'
-import { gerarPdfOS } from '../../shared/lib/pdf'
+import { gerarReciboPagamento } from '../../shared/lib/pdf'
+import { useLoja } from '../../shared/hooks/useLoja'
 import { formatarMoeda, formatarData } from '../../shared/utils/formatters'
 
 const STATUS_LABEL = {
@@ -18,7 +19,9 @@ const STATUS_LABEL = {
 
 export default function Pagamentos() {
   const { perfil } = useAuth()
+  const { loja } = useLoja()
   const [gerandoId, setGerandoId] = useState(null)
+  const [gerandoReciboId, setGerandoReciboId] = useState(null)
   const [erro, setErro] = useState(null)
 
   const { dados: ordens, carregando: carregandoOS } = useSupabaseQuery(
@@ -78,19 +81,18 @@ export default function Pagamentos() {
     }
   }
 
-  function baixarRecibo(pagamento) {
-    gerarPdfOS({
-      os: {
-        numero: pagamento.ordens_servico?.numero,
-        status: 'entregue',
-        created_at: pagamento.created_at,
-        desconto: 0,
-        prazo_entrega: null,
-      },
-      cliente: pagamento.ordens_servico?.clientes,
-      itens: [{ descricao: `Pagamento OS #${pagamento.ordens_servico?.numero}`, quantidade: 1, valor_unitario: Number(pagamento.valor) }],
-      loja: null,
-    })
+  async function baixarRecibo(pagamento) {
+    setGerandoReciboId(pagamento.id)
+    try {
+      await gerarReciboPagamento({
+        pagamento,
+        cliente: pagamento.ordens_servico?.clientes,
+        numeroOS: pagamento.ordens_servico?.numero,
+        loja,
+      })
+    } finally {
+      setGerandoReciboId(null)
+    }
   }
 
   return (
@@ -143,8 +145,16 @@ export default function Pagamentos() {
             </div>
             <div className="flex items-center gap-3">
               <span className="font-medium text-gray-900">{formatarMoeda(pagamento.valor)}</span>
-              <button onClick={() => baixarRecibo(pagamento)} className="text-blue-600">
-                <FileDown size={18} />
+              <button
+                onClick={() => baixarRecibo(pagamento)}
+                disabled={gerandoReciboId === pagamento.id}
+                className="text-blue-600 disabled:opacity-50"
+              >
+                {gerandoReciboId === pagamento.id ? (
+                  <span className="block h-[18px] w-[18px] animate-spin rounded-full border-2 border-current border-t-transparent" />
+                ) : (
+                  <FileDown size={18} />
+                )}
               </button>
             </div>
           </div>

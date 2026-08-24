@@ -184,6 +184,18 @@ function criar_ordem_servico(params) {
 
   gerarPedidosLenteSeAprovado(osId, p_status, null)
 
+  if (p_vendedor_id) {
+    db.logs_auditoria.push({
+      id: gerarId('log'),
+      funcionario_id: p_vendedor_id,
+      acao: 'criar_os',
+      tabela_afetada: 'ordens_servico',
+      registro_id: osId,
+      detalhes: { status: p_status },
+      created_at: agora,
+    })
+  }
+
   return new RpcResult(osId)
 }
 
@@ -454,6 +466,120 @@ function calcular_destinatarios_campanha(params) {
   return new RpcResult(linhas)
 }
 
+function hojeISO() {
+  return new Date().toISOString().slice(0, 10)
+}
+
+function dashboard_indicadores() {
+  const hoje = hojeISO()
+  const inicioMes = hoje.slice(0, 8) + '01'
+  const dataRef = new Date()
+  const inicioMesAnterior = new Date(dataRef.getFullYear(), dataRef.getMonth() - 1, 1).toISOString().slice(0, 10)
+
+  const vendasValidas = (os) => os.status !== 'orcamento' && os.status !== 'cancelado'
+  const liquido = (os) => Number(os.valor_total) - Number(os.desconto ?? 0)
+
+  const vendasHoje = db.ordens_servico.filter((os) => vendasValidas(os) && os.created_at.slice(0, 10) === hoje)
+  const vendasMes = db.ordens_servico.filter((os) => vendasValidas(os) && os.created_at.slice(0, 10) >= inicioMes)
+  const vendasMesAnterior = db.ordens_servico.filter(
+    (os) => vendasValidas(os) && os.created_at.slice(0, 10) >= inicioMesAnterior && os.created_at.slice(0, 10) < inicioMes
+  )
+
+  const em7Dias = new Date()
+  em7Dias.setDate(em7Dias.getDate() + 7)
+  const em7DiasISO = em7Dias.toISOString().slice(0, 10)
+
+  const contasReceber7 = db.pagamentos
+    .filter((p) => ['PENDING', 'OVERDUE'].includes(p.status) && p.data_vencimento && p.data_vencimento <= em7DiasISO)
+    .reduce((soma, p) => soma + Number(p.valor), 0)
+
+  const contasPagar7 = db.contas_pagar
+    .filter((c) => c.status === 'pendente' && c.data_vencimento <= em7DiasISO)
+    .reduce((soma, c) => soma + Number(c.valor), 0)
+
+  const estoqueBaixo = db.produtos.filter(
+    (p) => p.ativo && ['armacao', 'acessorio'].includes(p.tipo) && (p.estoque_atual ?? 0) <= (p.estoque_minimo ?? 3)
+  ).length
+
+  return new RpcResult({
+    vendas_dia_valor: vendasHoje.reduce((s, os) => s + liquido(os), 0),
+    vendas_dia_qtd: vendasHoje.length,
+    vendas_mes_valor: vendasMes.reduce((s, os) => s + liquido(os), 0),
+    vendas_mes_anterior_valor: vendasMesAnterior.reduce((s, os) => s + liquido(os), 0),
+    os_orcamento: db.ordens_servico.filter((os) => os.status === 'orcamento').length,
+    os_em_producao: db.ordens_servico.filter((os) => os.status === 'em_producao').length,
+    os_pronto: db.ordens_servico.filter((os) => os.status === 'pronto').length,
+    contas_receber_7dias: contasReceber7,
+    contas_pagar_7dias: contasPagar7,
+    estoque_baixo_qtd: estoqueBaixo,
+  })
+}
+
+function dashboard_acao_necessaria() {
+  const hoje = hojeISO()
+  const linhas = []
+
+  for (const os of db.ordens_servico) {
+    if (['entregue', 'cancelado'].includes(os.status)) continue
+    if (os.prazo_entrega && os.prazo_entrega <= hoje) {
+      linhas.push({
+        tipo: 'os_atrasada',
+        titulo: `OS #${os.numero} atrasada`,
+        subtitulo: nomeCliente(os.cliente_id),
+        referencia_id: os.id,
+        data: os.prazo_entrega,
+      })
+    }
+  }
+
+  for (const pagamento of db.pagamentos) {
+    if (pagamento.status === 'OVERDUE' && !pagamento.lembrete_enviado_em) {
+      const os = db.ordens_servico.find((o) => o.id === pagamento.os_id)
+      linhas.push({
+        tipo: 'pagamento_vencido',
+        titulo: `Pagamento vencido — OS #${os?.numero ?? '?'}`,
+        subtitulo: os ? nomeCliente(os.cliente_id) : null,
+        referencia_id: pagamento.id,
+        data: pagamento.data_vencimento,
+      })
+    }
+  }
+
+  for (const pedido of db.pedidos_lente) {
+    if (pedido.status !== 'recebido' && pedido.prazo_estimado && pedido.prazo_estimado < hoje) {
+      const os = db.ordens_servico.find((o) => o.id === pedido.os_id)
+      const produto = db.produtos.find((p) => p.id === pedido.produto_id)
+      linhas.push({
+        tipo: 'lente_atrasada',
+        titulo: `Lente atrasada — OS #${os?.numero ?? '?'}`,
+        subtitulo: produto ? `${produto.marca} ${produto.modelo}` : null,
+        referencia_id: pedido.id,
+        data: pedido.prazo_estimado,
+      })
+    }
+  }
+
+  for (const produto of db.produtos) {
+    if (produto.ativo && ['armacao', 'acessorio'].includes(produto.tipo) && (produto.estoque_atual ?? 0) === 0) {
+      linhas.push({
+        tipo: 'estoque_zerado',
+        titulo: `${produto.marca} ${produto.modelo} zerado`,
+        subtitulo: produto.sku,
+        referencia_id: produto.id,
+        data: null,
+      })
+    }
+  }
+
+  linhas.sort((a, b) => {
+    if (!a.data) return 1
+    if (!b.data) return -1
+    return a.data.localeCompare(b.data)
+  })
+
+  return new RpcResult(linhas)
+}
+
 const FUNCOES = {
   listar_clientes_resumo,
   listar_ordens_servico,
@@ -465,6 +591,8 @@ const FUNCOES = {
   produtos_mais_vendidos,
   vendas_por_vendedor,
   calcular_destinatarios_campanha,
+  dashboard_indicadores,
+  dashboard_acao_necessaria,
 }
 
 export function chamarRpc(nome, params = {}) {

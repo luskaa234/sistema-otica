@@ -21,11 +21,14 @@ export function Button({
   loading = false,
   disabled = false,
   className = '',
+  as: Elemento = 'button',
   ...props
 }) {
+  const ehBotaoNativo = Elemento === 'button'
+
   return (
-    <button
-      disabled={disabled || loading}
+    <Elemento
+      {...(ehBotaoNativo ? { disabled: disabled || loading } : {})}
       className={`inline-flex items-center justify-center rounded-lg font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none ${variantes[variant]} ${tamanhos[size]} ${className}`}
       {...props}
     >
@@ -33,6 +36,6 @@ export function Button({
         <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
       )}
       {children}
-    </button>
+    </Elemento>
   )
 }

@@ -578,6 +578,7 @@ export default function NovoOrcamento() {
 }
 
 function NovoClienteRapido({ onCriado, onCancelar }) {
+  const { perfil } = useAuth()
   const [nome, setNome] = useState('')
   const [cpf, setCpf] = useState('')
   const [telefone, setTelefone] = useState('')
@@ -595,6 +596,17 @@ function NovoClienteRapido({ onCriado, onCancelar }) {
       .insert({ nome, cpf, telefone })
       .select('id, nome, cpf, telefone')
       .single()
+
+    if (!error && perfil?.id) {
+      await supabase.from('logs_auditoria').insert({
+        funcionario_id: perfil.id,
+        acao: 'criar_cliente',
+        tabela_afetada: 'clientes',
+        registro_id: data.id,
+        detalhes: { nome },
+      })
+    }
+
     setSalvando(false)
 
     if (error) {

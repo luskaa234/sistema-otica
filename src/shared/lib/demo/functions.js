@@ -11,6 +11,7 @@ async function asaasCriarCobranca({ os_id: osId }) {
 
   const valor = Number(os.valor_total) - Number(os.desconto ?? 0)
   const pagamentoId = gerarId('pag')
+  const dataVencimento = new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10)
 
   db.pagamentos.push({
     id: pagamentoId,
@@ -20,6 +21,7 @@ async function asaasCriarCobranca({ os_id: osId }) {
     forma_pagamento: os.forma_pagamento,
     status: 'PENDING',
     data_pagamento: null,
+    data_vencimento: dataVencimento,
     lembrete_enviado_em: null,
     invoice_url: `https://sandbox.asaas.com/i/demo_${pagamentoId}`,
     created_at: new Date().toISOString(),
