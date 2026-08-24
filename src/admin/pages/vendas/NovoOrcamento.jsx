@@ -9,7 +9,7 @@ import { Modal } from '../../../shared/components/Modal'
 import { Carregando } from '../../../shared/components/EstadoTela'
 import { supabase } from '../../../shared/lib/supabaseClient'
 import { useAuth } from '../../../shared/hooks/useAuth'
-import { formatarMoeda, mascararCPF, mascararTelefone } from '../../../shared/utils/formatters'
+import { formatarMoeda, formatarTelefone, mascararCPF, mascararTelefone } from '../../../shared/utils/formatters'
 import { validarCPF } from '../../../shared/utils/validators'
 
 const ETAPAS = ['Cliente', 'Receita', 'Itens', 'Fechamento']

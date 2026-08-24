@@ -301,7 +301,7 @@ export function FormularioProduto({ tipo, produto, onSalvo, onCancelar }) {
 
       {produto && (
         <p className="text-xs text-gray-400">
-          A quantidade em estoque só muda pelo botão"Ajustar" (registra o motivo no histórico).
+          A quantidade em estoque só muda pelo botão "Ajustar" (registra o motivo no histórico).
         </p>
       )}
 

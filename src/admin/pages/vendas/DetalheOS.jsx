@@ -198,7 +198,7 @@ export default function DetalheOS() {
         {proximo && (
           <div className="mt-4">
             <Button loading={processando} onClick={avancarStatus}>
-              Avançar para"{STATUS_OS_LABEL[proximo]}"
+              Avançar para "{STATUS_OS_LABEL[proximo]}"
             </Button>
           </div>
         )}
