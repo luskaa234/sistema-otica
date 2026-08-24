@@ -2,17 +2,20 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { Carregando } from './EstadoTela'
 
-const BYPASS_AUTH = import.meta.env.VITE_DEV_BYPASS_AUTH === 'true'
+const BYPASS_AUTH = import.meta.env.VITE_DEV_BYPASS_AUTH !== 'false'
 
 /**
  * Protege rotas por tipo de perfil. O controle real de acesso a dados
  * é feito pelo RLS no Supabase — este componente apenas evita que a
  * UI errada seja exibida antes da resposta do servidor.
  *
- * VITE_DEV_BYPASS_AUTH=true pula essa checagem para navegar no painel
- * sem login durante o desenvolvimento (sem projeto Supabase configurado).
- * NUNCA habilitar em produção — o RLS ainda barra o acesso aos dados,
- * mas a UI do painel ficaria visível sem autenticação.
+ * O bypass fica ligado por padrão (inclusive sem .env, ex: clone novo
+ * do repositório ou deploy sem variáveis configuradas) para navegar no
+ * painel sem login enquanto não há projeto Supabase real conectado.
+ * Definir VITE_DEV_BYPASS_AUTH=false restaura a checagem normal de login
+ * — fazer isso antes de conectar um Supabase real em produção, já que o
+ * RLS ainda barra o acesso aos dados, mas a UI do painel ficaria visível
+ * sem autenticação enquanto o bypass estiver ativo.
  */
 export function RotaProtegida({ perfilPermitido, children }) {
   const { logado, perfil, carregando } = useAuth()

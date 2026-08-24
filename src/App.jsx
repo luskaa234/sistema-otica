@@ -3,7 +3,7 @@ import { RotaProtegida } from './shared/components/RotaProtegida'
 
 import Login from './pages/Login'
 
-const BYPASS_AUTH = import.meta.env.VITE_DEV_BYPASS_AUTH === 'true'
+const BYPASS_AUTH = import.meta.env.VITE_DEV_BYPASS_AUTH !== 'false'
 
 import { AdminLayout } from './admin/layouts/AdminLayout'
 import { EstoqueLayout } from './admin/layouts/EstoqueLayout'
